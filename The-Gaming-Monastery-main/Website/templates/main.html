@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block title %}Main{% endblock %}
+{% block content %}
+
+<!-- expose the map to JS -->
+<script>
+  const GAME_STATUS_MAP = {{ game_status_map | tojson }};
+</script>
+
+<style>
+  .game-card         { border:1px solid #ccc; border-radius:8px; margin-bottom:15px; cursor:pointer; transition:box-shadow .2s; }
+  .game-card:hover   { box-shadow:0 4px 8px rgba(0,0,0,0.1); }
+  .game-card-image   { width:100%; height:200px; object-fit:cover; border-top-left-radius:8px; border-top-right-radius:8px; }
+  .game-card-body    { padding:15px; text-align:center; }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#78b2bc;">
+  <a class="navbar-brand" href="/">
+    <img src="{{ url_for('static', filename='images for website/editedlogowithshadows.png') }}"
+         width="50" height="50" class="d-inline-block" alt="">
+    The Gaming Monastery
+  </a>
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout {{ current_user.username }}</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="container-fluid mt-4">
+  <h1>Gaming Monastery Dashboard</h1>
+
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active"   data-toggle="tab" href="#all-games">Games</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link"          data-toggle="tab" href="#playing">Playing</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link"          data-toggle="tab" href="#played">Played</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <!-- ALL GAMES -->
+    <div id="all-games" class="tab-pane fade show active">
+      <div class="row mt-3">
+        {% for game in games %}
+          <div class="col-md-4">
+            <div class="game-card"
+                 onclick="showGameDetails(
+                   {{ game.id }},
+                   '{{ game.title|escape }}',
+                   `{{ game.description|escape }}`,
+                   '{{ game.image_url }}',
+                   '{{ game.developer|escape }}',
+                   '{{ game.publisher|escape }}',
+                   '{{ game.release_date }}'
+                 )">
+              <img src="{{ game.image_url }}" class="game-card-image" alt="{{ game.title }}">
+              <div class="game-card-body">
+                <h5>{{ game.title }}</h5>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- PLAYING -->
+    <div id="playing" class="tab-pane fade">
+      <div class="row mt-3">
+        {% if playing_games %}
+          {% for game in playing_games %}
+            <div class="col-md-4">
+              <div class="card mb-3">
+                {% if game.image_url %}
+                  <img src="{{ game.image_url }}" class="card-img-top" alt="{{ game.title }}">
+                {% endif %}
+                <div class="card-body">
+                  <h5 class="card-title">{{ game.title }}</h5>
+                  <p class="card-text">{{ game.description }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="mt-3">No games marked as Playing yet.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- PLAYED -->
+    <div id="played" class="tab-pane fade">
+      <div class="row mt-3">
+        {% if played_games %}
+          {% for game in played_games %}
+            <div class="col-md-4">
+              <div class="card mb-3">
+                {% if game.image_url %}
+                  <img src="{{ game.image_url }}" class="card-img-top" alt="{{ game.title }}">
+                {% endif %}
+                <div class="card-body">
+                  <h5 class="card-title">{{ game.title }}</h5>
+                  <p class="card-text">{{ game.description }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="mt-3">No games marked as Played yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GAME DETAILS MODAL -->
+<div class="modal fade" id="gameDetailsModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-header"><h5 class="modal-title">Game Details</h5></div>
+      <div class="modal-body" id="gameDetailsModalBody"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showGameDetails(id, title, description, imageUrl, developer, publisher, releaseDate) {
+  const status = GAME_STATUS_MAP[id] || 'To Play';
+
+  // Always allow marking as Playing
+  let btns = `<a href="/add_to_playing/${id}" class="btn btn-primary">Mark as Playing</a>`;
+
+  // Only if it's already Playing, show "Mark as Played"
+  if (status === 'Playing') {
+    btns += ` <a href="/move_to_played/${id}" class="btn btn-success">Mark as Played</a>`;
+  }
+
+  document.getElementById('gameDetailsModalBody').innerHTML = `
+    <h4>${title}</h4>
+    <img src="${imageUrl}" style="width:100%;max-height:400px;object-fit:contain;">
+    <p><strong>Description:</strong> ${description}</p>
+    <p><strong>Developer:</strong> ${developer}</p>
+    <p><strong>Publisher:</strong> ${publisher}</p>
+    <p><strong>Release Date:</strong> ${releaseDate}</p>
+    <div class="mt-3">${btns}</div>
+  `;
+  $('#gameDetailsModal').modal('show');
+}
+</script>
+
+{% endblock %}
