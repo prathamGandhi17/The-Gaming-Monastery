@@ -18,9 +18,9 @@ class Games(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), unique=True) #changed the title to be unique so that no duplicate entries
     genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'))
-    description = db.Column(db.String(100))
-    developer = db.Column(db.String(20))
-    publisher = db.Column(db.String(20))
+    description = db.Column(db.String(1000))
+    developer = db.Column(db.String(100))
+    publisher = db.Column(db.String(100))
     image_url = db.Column(db.String(200))
     release_date = db.Column(db.Date)
 
@@ -39,3 +39,4 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), unique=True)
     username = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(150))
+    games = db.relationship('UserGames')
