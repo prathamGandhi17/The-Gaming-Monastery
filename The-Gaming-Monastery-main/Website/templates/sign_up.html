@@ -1,0 +1,125 @@
+{% extends "base.html" %} {%  block title %}Login{% endblock %}
+
+{% block content%}
+
+<style>
+    .image-container {
+        padding-left: 0;
+        padding-right: 0;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .full-width-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .login-form{
+        top: 40%;
+        background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+        padding: 2rem;
+        border-radius: 10px; /* Soft rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        width: 80%; /* Adjust width as needed */
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        flex-direction: column;
+    }
+    .login-section {
+        background-color: #fac05f;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: start;
+        height: 100vh; /* Match image container height */
+        padding: 2rem;
+    }
+</style>
+
+<div class="container-fluid" style="padding-bottom: 0;">
+    <div class="row">
+        <div class="col-5 sm-12 login-section">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand nav-links" href="/">
+                    The Gaming Monastery
+                  </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+              
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav align-items-center mr-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" href="/login">Log In</a>
+                  </li>
+                 </ul>
+                </div>
+              </nav>
+            
+            <div class="login-form">
+            <div class="container d-flex justify-content-around align-items-center">
+                <div class="container d-flex justify-content-center align-items center" style="max-width: 190px;">
+                    <img src=" {{ url_for('static', filename='images for website/editedlogowithshadows.png') }} " width="160" height="160" alt="">
+                </div>
+                <form method="POST">
+                    <h3 align="center">Sign Up</h3>
+                
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input 
+                        type="email" 
+                        class="form-control" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Enter email (&lt;150 characters)"
+                        />
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="firstName">Username</label>
+                        <input 
+                        type="text" 
+                        class="form-control" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Enter Username (1-20 characters)"
+                        />
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="password1">Password</label>
+                        <input 
+                        type="password" 
+                        class="form-control" 
+                        id="password1" 
+                        name="password1" 
+                        placeholder="Enter Password"
+                        />
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="password2">Confirm Password</label>
+                        <input 
+                        type="password" 
+                        class="form-control" 
+                        id="password2" 
+                        name="password2" 
+                        placeholder="Confirm Password"
+                        />
+                    </div>
+                    
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            </div>
+        </div>
+        <div class="col-7 sm-12 image-container">
+            <img src="{{ url_for('static', filename='images for website/freepik__retouch__88847.png') }}" class="full-width-image" alt="Login Image">
+        </div>
+    </div>
+</div>
+{% endblock %}

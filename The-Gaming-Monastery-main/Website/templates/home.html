@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    .login-section {
+        background-color: #fac05f;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+    }
+
+    .left-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .left-text {
+        width: 100%;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .left-text ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .left-text ul li {
+        margin-bottom: 1.25rem;
+        color: #000;
+    }
+
+    .play-it {
+        font-size: 3.2rem;
+        font-weight: 400;
+        font-family: "Pixelify Sans", sans-serif;
+    }
+
+    .track-it {
+        font-size: 3.2rem;
+        font-weight: 700;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .love-it {
+        font-size: 3.2rem;
+        font-style: italic;
+        font-weight: 400;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .description {
+        font-size: 0.9rem;
+        font-family: 'Poppins', sans-serif;
+        line-height: 1.5;
+        margin-top: -0.75rem;
+        margin-bottom: 2rem;
+    }
+
+    .get-started-btn {
+        background-color: #088773;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        color: white;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        transition: 0.2s ease;
+    }
+
+    .get-started-btn:hover {
+        background-color: #066957;
+    }
+
+    .right-section {
+    background-color: #78b2bc;
+    height: 100vh;
+    padding: 0;
+    display: flex;
+}
+
+.full-width-image {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center;
+}
+
+</style>
+
+<div class="container-fluid px-0">
+    <div class="row">
+        <!-- Left section -->
+        <div class="col-md-5 col-12 login-section">
+            <div class="left-box">
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='images for website/editedlogowithshadows.png') }}" width="160" height="160" alt="Logo">
+                </div>
+                <div class="left-text">
+                    <ul>
+                        <li class="play-it">Play it.</li>
+                        <li class="track-it">Track it.</li>
+                        <li class="love-it">Love it.</li>
+                        <li class="description">
+                            Take control of your gaming experience by exploring a vast library of titles to find new worlds and unforgettable stories and track their progress.
+                        </li>
+                        <li>
+                            <a href="/login"> <button type="button" class="get-started-btn">Get Started</button></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right section -->
+        <div class="col-md-7 col-12 right-section">
+            <img src="{{ url_for('static', filename='images for website/freepik__retouch__88847.png') }}" class="full-width-image" alt="Login Image">
+            <!-- Your right panel content -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
